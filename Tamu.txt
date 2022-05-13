@@ -1,0 +1,77 @@
+public class Tamu 
+{
+
+		String familyName;
+		String givenName;
+		long mobileNumber;
+		Kamar tipeKamar;
+		String checkIn;
+		String checkOut;
+		String status;
+	
+	   public Tamu(String inFamName, String inGivenName, long inMobile, Kamar inTipeKamar, String inCheckIn, String inCheckOut, String inStatus)
+	   {
+	       familyName = inFamName;
+	       givenName = inGivenName;
+	       mobileNumber = inMobile;
+	       tipeKamar = inTipeKamar;
+	       checkIn = inCheckIn;
+	       checkOut = inCheckOut;
+	       status = inStatus;
+	   }
+
+	   public String getFamName()
+	   {
+	      return this.familyName;
+	   }
+
+	   public String getGivenName()
+	   {
+	      return this.givenName;
+	   }
+	   
+	   public long getMobileNumber()
+	   {
+	      return this.mobileNumber;
+	   }
+	   
+	   public String getCheckIn()
+	   {
+	      return this.checkIn;
+	   }
+	   
+	   public String getKamar()
+	   {
+		   return this.tipeKamar.geNamaKamar();
+	   }
+	   
+	   public String getCheckOut()
+	   {
+	      return this.checkOut;
+	   }
+	   
+	   public String getStatus()
+	   {
+	      return this.status;
+	   }
+
+	   public void sudahCheckIn()
+	   {
+		   this.status = "Sudah check In";
+	   }
+	   
+	   public void sudahCheckOut()
+	   {
+		   this.status = "Telah check out";
+	   }
+
+	   public String getDetails()
+	   {
+	      String outString;
+	      
+	      outString = familyName + " " + givenName + " - " + mobileNumber;
+	      
+	      return outString;
+	   }
+	
+}

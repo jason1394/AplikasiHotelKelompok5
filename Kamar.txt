@@ -1,0 +1,33 @@
+
+public class Kamar 
+{
+	   String namaKamar; //tipe kamar
+	   double hargaKamar; //harga kamar per malam
+	
+	   public Kamar(String inNamaKamar, double inHargaKamar)
+	   {
+	       namaKamar = inNamaKamar;
+	       hargaKamar = inHargaKamar;
+	   }
+
+	   public String geNamaKamar()
+	   {
+	      return this.namaKamar;
+	   }
+
+	   public double getHargaKamar()
+	   {
+	      return this.hargaKamar;
+	   }
+	   
+
+	   public String getDetails()
+	   {
+	      String outString;
+	      
+	      outString = "Kamar" + " - " + namaKamar + ", Harga Kamar - " + hargaKamar;
+	      
+	      return outString;
+	   }
+	
+}

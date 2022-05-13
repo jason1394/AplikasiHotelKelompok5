@@ -1,0 +1,276 @@
+import java.util.*;
+
+public class tugasAkhir
+{
+	public static void main(String[] args)
+	{
+		int pilihanMenu;
+		Scanner obj = new Scanner(System.in);
+		
+		//Hardcode list kamar kamar yang tersedia di hotel ABC
+		List<Kamar> listKamar = new ArrayList<Kamar>();
+		//ada 3 tipe kamar, reguler, deluxe, executive
+		listKamar.add(new Kamar("Reguler", 300000));
+		listKamar.add(new Kamar("Deluxe", 700000));
+		listKamar.add(new Kamar("Executive", 1000000));
+		
+		List<Tamu> listBooking = new ArrayList<Tamu>(); //list booking adalah list tamu yang sudah booking tapi blom check in
+		List<Tamu> listCheckIn= new ArrayList<Tamu>(); //list checkIn adalah list tamu yang sudah/sedang check in
+		List<Tamu> listCheckOut = new ArrayList<Tamu>(); //list untuk tamu yang sudah CheckOut
+		
+		boolean tetapBerjalan = true; //tetap menjalankan program atau tidak
+		
+		//Pakai while agar program terus berjalan
+		while(tetapBerjalan)
+		{
+			//Menu
+			System.out.println("Aplikasi hotel Bagus Tapi Kecil");
+			System.out.println("Pilih tugas:");
+			System.out.println("1. Book tamu");
+			System.out.println("2. Check-in tamu");
+			System.out.println("3. Check-out tamu");
+			System.out.println("4. List tamu booking");
+			System.out.println("5. List tamu check-in");
+			System.out.println("6. List tamu check-out");
+			System.out.println("7. List jenis kamar pada hotel");
+			System.out.println("8. Keluar aplikasi");
+			System.out.println("Pilihan Menu (i.e., 1, 2, etc.): ");
+			
+			pilihanMenu = obj.nextInt();
+			
+			switch(pilihanMenu)
+			{
+			    //booking tamu
+				case 1:
+					bookTamu(listBooking, listKamar);
+					System.out.println();
+					break;
+					
+				case 2:
+					//check-in tamu dari list booking
+					checkInTamu(listBooking, listCheckIn);
+					System.out.println();
+					break;
+					
+				case 3:
+					//check-out tamu
+					checkOutTamu(listCheckIn, listCheckOut);
+					System.out.println();
+					break;
+					
+				case 4:
+					//print list tamu booking
+					printTamuBooking(listBooking);
+					System.out.println();
+					break;
+					
+				case 5:
+					//print list tamu check in
+					printTamuCheckIn(listCheckIn);
+					System.out.println();
+					break;
+					
+				case 6:
+					//print list tamu check out
+					printTamuCheckOut(listCheckOut);
+					System.out.println();
+					break;
+					
+				case 7:
+					//print list kamar
+					printKamar(listKamar);
+					System.out.println();
+					break;
+					
+				case 8:
+					//stop aplikasi
+					tetapBerjalan = false;
+					break;
+					
+				default:
+					System.out.println("Bukan pilihan menu.");
+					
+			}//switch
+			
+		}//while
+		
+		obj.close();
+		
+		System.out.println("Telah keluar dari aplikasi.");
+	
+	}//main
+	
+	public static void bookTamu(List<Tamu> bookTamu, List<Kamar> listKamar)
+	{
+		String tempFamilyName;
+		String tempGivenName;
+		long tempMobileNumber;
+		String tempKamar;
+		String tempCheckIn;
+		String tempCheckOut;
+		String status = "Belom Check in";
+		Tamu tempTamu;
+		
+		Scanner obj1 = new Scanner(System.in);
+		Scanner obj2 = new Scanner(System.in);
+		Scanner obj3 = new Scanner(System.in);
+		
+		System.out.println("Masukan details tamu yang booking.");
+		System.out.print("Masukan Nama Terakhir/Belakang/Keluarga Tamu: ");
+		tempFamilyName = obj1.next();
+		
+		System.out.print("Masukan Nama Depan Tamu: ");
+		tempGivenName = obj1.next();
+		
+		System.out.print("Masukan Nomor Telepon Tamu " + tempGivenName + " " + tempFamilyName + ": ");
+		tempMobileNumber = obj2.nextLong();
+		
+		System.out.print("Masukan Tipe Kamar (Reguler, Deluxe, Executive) yang ingin dibook oleh Tamu "  + tempGivenName + " " + tempFamilyName + ": ");
+		tempKamar = obj3.next();
+		
+		System.out.print("Masukan Tanggal Check-in (i.e., ddmYYYY 01Jan1999) Tamu "  + tempGivenName + " " + tempFamilyName + ": ");
+		tempCheckIn = obj3.next();
+		
+		System.out.print("Masukan Tanggal Check-out (i.e., ddmYYYY 01Jan1999) Tamu "  + tempGivenName + " " + tempFamilyName + ": ");
+		tempCheckOut = obj3.next();
+		
+		switch(tempKamar)
+		{
+			case "Reguler":
+				bookTamu.add(new Tamu(tempFamilyName, tempGivenName, tempMobileNumber, listKamar.get(0),tempCheckIn, tempCheckOut, status));
+				System.out.println("Tamu berhasil di booking!");
+				break;
+				
+			case "Deluxe":
+				bookTamu.add(new Tamu(tempFamilyName, tempGivenName, tempMobileNumber, listKamar.get(1),tempCheckIn, tempCheckOut, status));
+				System.out.println("Tamu berhasil di booking!");
+				break;
+				
+			case "Executive":
+				bookTamu.add(new Tamu(tempFamilyName, tempGivenName, tempMobileNumber, listKamar.get(2),tempCheckIn, tempCheckOut, status));
+				System.out.println("Tamu berhasil di booking!");
+				break;
+				
+			default:
+				System.out.println("Salah input / Tidak ada tipe kamar tersebut");
+				break;
+		}
+		
+	}//book tamu
+	
+	public static void checkInTamu(List<Tamu> bookTamu, List<Tamu> checkInTamu)
+	{			
+		//keluarin list orang yang telah booking, staff cek manual. Masih bisa karena hotel kecil cuma punya 10 kamar
+		System.out.println("List tamu yang telah booking");
+		for (int i = 0 ; i < bookTamu.size(); i++)
+		{
+			String temp = bookTamu.get(i).getDetails();
+			System.out.println("Tamu urutan " + "'" + (i+1) + "'"+ " - " + temp);
+		}
+		
+		System.out.println("Check-in tamu berdasarkan nomor urutan (i.e., 1, 2, etc. )");
+		
+		Scanner obj4 = new Scanner(System.in);
+		int kodeTamu = obj4.nextInt();
+		checkInTamu.add(bookTamu.get(kodeTamu-1)); 
+		
+		bookTamu.remove(kodeTamu-1);
+				
+		System.out.println("Tamu berhasil di check-in!");
+		
+	}//checkInTamu
+	
+	public static void checkOutTamu(List<Tamu> checkInTamu, List<Tamu> checkOutTamu)
+	{
+		//keluarin list orang yang telah check-in, staff cek manual. Masih bisa karena hotel kecil cuma punya 10 kamar
+		System.out.println("List tamu yang telah check in");
+		for (int i = 0 ; i < checkInTamu.size(); i++)
+		{
+			String temp = checkInTamu.get(i).getDetails();
+			System.out.println("Tamu urutan " + "'" + (i+1) + "'"+ " - " + temp);
+		}
+		
+		System.out.println("Check-in tamu berdasarkan nomor urutan (i.e., 1, 2, etc. )");
+		
+		Scanner obj5 = new Scanner(System.in);
+		int kodeTamu = obj5.nextInt();
+		checkOutTamu.add(checkInTamu.get(kodeTamu-1)); 
+		
+		checkInTamu.remove(kodeTamu-1);
+		
+		System.out.println("Tamu berhasil di check-out!");
+	}
+	
+	public static void printTamuBooking(List<Tamu> bookTamu)
+	{
+		if (bookTamu.isEmpty())
+		{
+			System.out.println("Belom ada tamu yang booking");
+		}
+		else
+		{
+			System.out.println("List tamu yang telah booking:");
+			for (int i = 0 ; i < bookTamu.size(); i++)
+			{
+				String temp = bookTamu.get(i).getDetails();
+				System.out.println("Tamu urutan " + "'" + (i+1) + "'"+ " - " + temp + ", Akan check in tanggal: " + bookTamu.get(i).getCheckIn() + ", Akan check out tanggal: " + bookTamu.get(i).getCheckOut());
+			}
+		}
+		
+	}//print tamu booking
+	
+	public static void printTamuCheckIn(List<Tamu> checkInTamu)
+	{
+		if (checkInTamu.isEmpty())
+		{
+			System.out.println("Belom ada tamu yang check-in.");
+		}
+		else
+		{
+			System.out.println("List tamu yang telah check in:");
+			for (int i = 0 ; i < checkInTamu.size(); i++)
+			{
+				String temp = checkInTamu.get(i).getDetails();
+				System.out.println("Tamu urutan " + "'" + (i+1) + "'"+ " - " + temp + ", Telah check in tanggal: " + checkInTamu.get(i).getCheckIn() + ", Akan check out tanggal: " + checkInTamu.get(i).getCheckOut());
+			}
+		}
+		
+	}//print tamu check in
+	
+	public static void printTamuCheckOut(List<Tamu> checkOutTamu)
+	{
+		if (checkOutTamu.isEmpty())
+		{
+			System.out.println("Belom ada tamu yang check-out");
+		}
+		else
+		{
+			System.out.println("List tamu yang telah check out:");
+			for (int i = 0 ; i < checkOutTamu.size(); i++)
+			{
+				String temp = checkOutTamu.get(i).getDetails();
+				System.out.println("Tamu urutan " + "'" + (i+1) + "'"+ " - " + temp + ", Telah check out tanggal: " + checkOutTamu.get(i).getCheckOut());
+			}
+		}
+		
+	}//print tamu check out
+	
+	public static void printKamar(List<Kamar> listKamar)
+	{
+		if (listKamar.isEmpty())
+		{
+			System.out.println("Jenis Kamar belum ditentukan");
+		}
+		else
+		{
+			System.out.println("List jenis kamar yang dimiliki hotel:");
+			for (int i = 0 ; i < listKamar.size(); i++)
+			{
+				String temp = listKamar.get(i).getDetails();
+				System.out.println(temp);
+			}
+		}
+		
+	}//print list jenis kamar
+	
+}//class
